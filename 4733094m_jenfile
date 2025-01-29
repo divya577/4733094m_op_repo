@@ -15,8 +15,17 @@ pipeline {
                         puppet resource file /tmp/4733094m/research ensure=absent force=true
                         puppet resource file /tmp/4733094m/research ensure=directory
 
+                        # Fix permissions for Jenkins to access the directory
+                        chmod -R 777 /tmp/4733094m/research
+
                         # Clone the repository without sudo
                         git clone -b Prod https://github.com/divya577/4733094m_op_repo.git /tmp/4733094m/research
+
+                        # Check if the repository was cloned successfully
+                        if [ ! -d "/tmp/4733094m/research/.git" ]; then
+                            echo "Failed to clone the repository!"
+                            exit 1
+                        fi
 
                         # Check if the script file exists
                         if [ ! -f /tmp/4733094m/research/4733094m_op_repo/4733094m_script ]; then
