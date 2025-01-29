@@ -2,20 +2,31 @@ pipeline {
     agent any
 
     stages {
-        stage('4733094m-opr-s1') {
+               stage('4733094m-opr-s1') {
             steps {
                 script {
                     echo '4733094m-opr-s1: Creating backup for UAT server'
-                    sh 'docker rmi -f uatsvr_image || true' 
-                    sh 'docker commit 4733094m_uatsvr uatsvr_image' 
-                    echo '4733094m-opr-s1: Backup image created'
+                    sh 'docker rmi -f uatsvr_image || true'
+                    sh 'docker commit 4733094m_uatsvr uatsvr_image'
                     
                     echo '4733094m-opr-s1: Updating UAT server'
-                    sh 'bolt script run 4733094m_script --targets docker://4733094m_uatsvr'
+                    sh '''#!/bin/bash
+                    puppet resource file /tmp/research ensure=absent force=true
+                    puppet resource file /tmp/research ensure=directory
+                    cd /tmp/research
+                    git clone https://github.com/divya577/4733094m_op_repo.git
+
+                    targets=4733094m_uatsvr.localdomain
+                    locate_script='/tmp/research//4733094m_op_repo/4733094m_script'
+
+                    bolt script run $locate_script -t $targets -u root --no-host-key-check --run-as root
+                    '''
+
                     echo '4733094m-opr-s1: UAT web server is backup and updated'
                 }
             }
         }
+
 
         stage('4733094m-opr-s2') {
             steps {
