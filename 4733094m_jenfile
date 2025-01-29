@@ -14,7 +14,7 @@ pipeline {
                    puppet resource file /tmp/4733094m/research ensure=absent force=true
                    puppet resource file /tmp/4733094m/research ensure=directory
                    cd /tmp/4733094m/research
-                    git clone https://github.com/divya577/4733094m_op_repo.git
+                    git clone -b Prod https://github.com/divya577/4733094m_op_repo.git
 
                     targets=4733094m_uatsvr.localdomain
                     locate_script='/tmp/4733094m/research/4733094m_op_repo/4733094m_script'
