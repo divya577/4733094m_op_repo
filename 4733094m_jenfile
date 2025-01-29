@@ -11,7 +11,7 @@ pipeline {
                     echo '4733094m-opr-s1: Backup image created'
                     
                     echo '4733094m-opr-s1: Updating UAT server'
-                    sh 'bolt script run 4733094m_script --targets 4733094m_uatsvr' 
+                    sh 'bolt script run 4733094m_script --targets docker://4733094m_uatsvr'
                     echo '4733094m-opr-s1: UAT web server is backup and updated'
                 }
             }
