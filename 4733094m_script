@@ -17,7 +17,7 @@ puppet resource file /tmp/4733094m/research ensure=absent force=true
 puppet resource file /tmp/4733094m/research ensure=directory 
 
 # Clone the repository
-git clone https://github.com/divya577/4733094m_op_repo.git /tmp/4733094m/research
+git clone -b Prod https://github.com/divya577/4733094m_op_repo.git /tmp/4733094m/research
 
 # Replace index.html with the one from the cloned repo (similar to Puppet file resource)
 cp -p /tmp/4733094m/research/4733094m_op_repo/4733094m_index.html /var/www/html
