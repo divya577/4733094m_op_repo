@@ -17,7 +17,7 @@ pipeline {
                     git clone https://github.com/divya577/4733094m_op_repo.git
 
                     targets=4733094m_uatsvr.localdomain
-                    locate_script='/tmp/research//4733094m_op_repo/4733094m_script'
+                    locate_script='/tmp/research/4733094m_op_repo/4733094m_script'
 
                     bolt script run $locate_script -t $targets -u root --no-host-key-check --run-as root
                     '''
