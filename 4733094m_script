@@ -21,7 +21,7 @@ file { '/tmp/4733094m/research':
 
 # Clone the repository
 exec { 'Clone repository':
-  command => 'git clone https://github.com/youraccount/4733094m_opr_repo.git /tmp/4733094m/research',
+  command => 'git clone https://github.com/divya577/4733094m_opr_repo.git /tmp/4733094m/research',
   path    => ['/usr/bin', '/bin'],
 }
 
