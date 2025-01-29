@@ -5,9 +5,9 @@ pipeline {
         stage('4733094m-opr-s1') {
             steps {
                 script {
-                    echo '4733094m-OP-S1: Creating backup for UAT server'
+                    echo '4733094m-opr-s1: Creating backup for UAT server'
                     sh 'docker rmi -f uatsvr_image || true' 
-                    sh 'docker commit <your polite ID>_uatsvr uatsvr_image' 
+                    sh 'docker commit 4733094m_uatsvr uatsvr_image' 
                     echo '4733094m-opr-s1: Backup image created'
                     
                     echo '4733094m-opr-s1: Updating UAT server'
@@ -51,7 +51,7 @@ pipeline {
             }
         }
 
-        stage('<your polite ID>-opr-s6') {
+        stage('4733094m-opr-s6') {
             steps {
                 script {
                     echo '4733094m-opr-s6: Creating backup for PROD server'
