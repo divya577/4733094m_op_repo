@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-               stage('4733094m-opr-s1') {
+        stage('4733094m-opr-s1') {
             steps {
                 script {
                     echo '4733094m-opr-s1: Creating backup for UAT server'
@@ -11,21 +11,30 @@ pipeline {
                     
                     echo '4733094m-opr-s1: Updating UAT server'
                     sh '''#!/bin/bash
-                   puppet resource file /tmp/4733094m/research ensure=absent force=true
-                   puppet resource file /tmp/4733094m/research ensure=directory
-                   cd /tmp/4733094m/research
-                    git clone -b Prod https://github.com/divya577/4733094m_op_repo.git
+                        # Ensure necessary directories are present
+                        puppet resource file /tmp/4733094m/research ensure=absent force=true
+                        puppet resource file /tmp/4733094m/research ensure=directory
 
-                    targets=4733094m_uatsvr.localdomain
-                    locate_script='/tmp/4733094m/research/4733094m_op_repo/4733094m_script'
+                        # Clone the repository without sudo
+                        git clone -b Prod https://github.com/divya577/4733094m_op_repo.git /tmp/4733094m/research
 
-                    bolt script run $locate_script -t $targets -u clientadm -p user123 --no-host-key-check --run-as root; 
+                        # Check if the script file exists
+                        if [ ! -f /tmp/4733094m/research/4733094m_op_repo/4733094m_script ]; then
+                            echo "Script not found!"
+                            exit 1
+                        fi
+
+                        # Define the script and target server
+                        locate_script='/tmp/4733094m/research/4733094m_op_repo/4733094m_script'
+                        targets=4733094m_uatsvr.localdomain
+
+                        # Run Bolt script on target server
+                        bolt script run $locate_script -t $targets -u clientadm -p user123 --no-host-key-check --run-as root
                     '''
 
                     echo '4733094m-opr-s1: UAT web server is backup and updated'
                 }
             }
         }
+    }
 }
-}
-
