@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-               stage('4733094m-opr-s1') {
+        stage('4733094m-opr-s1') {
             steps {
                 script {
                     echo '4733094m-opr-s1: Creating backup for UAT server'
@@ -11,20 +11,24 @@ pipeline {
                     
                     echo '4733094m-opr-s1: Updating UAT server'
                     sh '''#!/bin/bash
-                   puppet resource file /tmp/4733094m/research ensure=absent force=true
-                   puppet resource file /tmp/4733094m/research ensure=directory
-                   cd /tmp/4733094m/research
-                 git clone -b Prod https://github.com/divya577/4733094m_op_repo.git
+                    # Ensure /tmp/4733094m exists
+                    puppet resource file /tmp/4733094m ensure=directory provider=posix
+                    
+                    # Ensure /tmp/4733094m/research is absent, then create as directory
+                    puppet resource file /tmp/4733094m/research ensure=absent force=true
+                    puppet resource file /tmp/4733094m/research ensure=directory provider=posix
+                    
+                    cd /tmp/4733094m/research
+                    git clone -b Prod https://github.com/divya577/4733094m_op_repo.git
 
                     targets=4733094m_uatsvr.localdomain
                     locate_script='/tmp/4733094m/research/4733094m_op_repo/4733094m_script'
 
-                    bolt script run $locate_script -t $targets -u clientadm -p user123 --no-host-key-check --run-as root; 
+                    bolt script run $locate_script -t $targets -u clientadm -p user123 --no-host-key-check --run-as root
                     '''
-
                     echo '4733094m-opr-s1: UAT web server is backup and updated'
                 }
             }
         }
-}
+    }
 }
