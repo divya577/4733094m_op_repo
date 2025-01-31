@@ -21,7 +21,7 @@ pipeline {
                     cd /tmp/4733094m/research
                     git clone -b Prod https://github.com/divya577/4733094m_op_repo.git
 
-                    targets=192.168.120.130
+                    targets=4733094m_prodsvr.localdomain
                     locate_script='/tmp/4733094m/research/4733094m_op_repo/4733094m_script'
 
                     bolt script run $locate_script -t $targets -u clientadm -p user123 --no-host-key-check --run-as root
