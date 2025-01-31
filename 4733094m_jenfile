@@ -6,8 +6,8 @@ pipeline {
             steps {
                 script {
                     echo '4733094m-opr-s1: Creating backup for UAT server'
-                    sh 'docker rmi -f uatsvr_image || true'
-                    sh 'docker commit 4733094m_uatsvr uatsvr_image'
+                    sh 'sudo docker rmi -f uatsvr_image || true'
+                    sh 'sudo docker commit 4733094m_uatsvr uatsvr_image'
                     
                     echo '4733094m-opr-s1: Updating UAT server'
                     sh '''#!/bin/bash
