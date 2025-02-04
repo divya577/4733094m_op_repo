@@ -19,12 +19,5 @@ puppet resource file /tmp/4733094m/research ensure=directory provider=posix
 # Clone the repository
 git clone -b Prod https://github.com/divya577/4733094m_op_repo.git /tmp/4733094m/research
 
-# Debug: Check if the file exists before copying
-sudo ls -l /tmp/4733094m/research/4733094m_op_repo
-
-echo "Checking if 4733094m_index.html exists..."
-ls -l /tmp/4733094m/research/4733094m_op_repo/4733094m_index.html
-
 # Replace index.html with the one from the cloned repo (similar to Puppet file resource)
-echo "Copying 4733094m_index.html to /var/www/html"
 cp -p /tmp/4733094m/research/4733094m_op_repo/4733094m_index.html /var/www/html
