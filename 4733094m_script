@@ -10,8 +10,6 @@ puppet resource package apache2 ensure=present
 # Ensure Apache2 service is running using Puppet
 puppet resource service apache2 ensure=running 
 
-
-
 # Ensure /tmp/4733094m/research is absent and then create as directory
 puppet resource file /tmp/4733094m/research ensure=absent force=true
 puppet resource file /tmp/4733094m ensure=directory
