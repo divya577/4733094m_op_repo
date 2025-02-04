@@ -20,7 +20,7 @@ puppet resource file /tmp/4733094m/research ensure=directory provider=posix
 git clone -b Prod https://github.com/divya577/4733094m_op_repo.git /tmp/4733094m/research
 
 # Debug: Check if the file exists before copying
-ls -l /tmp/4733094m/research/4733094m_op_repo
+sudo ls -l /tmp/4733094m/research/4733094m_op_repo
 
 echo "Checking if 4733094m_index.html exists..."
 ls -l /tmp/4733094m/research/4733094m_op_repo/4733094m_index.html
