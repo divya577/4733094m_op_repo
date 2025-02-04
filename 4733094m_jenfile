@@ -50,9 +50,6 @@ pipeline {
             }
         }
 stage('4733094m-opr-s3') {
-            when {
-                expression { return currentBuild.result != 'FAILURE' }
-            }
             steps {
                 script {
                     echo "4733094m-opr-s3: Proceed stress test uat web server?"
@@ -62,9 +59,6 @@ stage('4733094m-opr-s3') {
         }
 
         stage('4733094m-opr-s4') {
-            when {
-                expression { return currentBuild.result != 'FAILURE' }
-            }
             steps {
                 script {
                     echo "4733094m-opr-s4: Stress test result is good"
