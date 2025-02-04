@@ -49,5 +49,28 @@ pipeline {
                 }
             }
         }
+stage('4733094m-opr-s3') {
+            when {
+                expression { return currentBuild.result != 'FAILURE' }
+            }
+            steps {
+                script {
+                    echo "4733094m-opr-s3: Proceed stress test uat web server?"
+                    input message: 'Proceed with stress test on uat web server or Abort (for uat svr fails)?', ok: 'Proceed', cancel: 'Abort'
+                }
+            }
+        }
+
+        stage('4733094m-opr-s4') {
+            when {
+                expression { return currentBuild.result != 'FAILURE' }
+            }
+            steps {
+                script {
+                    echo "4733094m-opr-s4: Stress test result is good"
+                    // You can add logic here to simulate the stress test or analyze results if needed
+                }
+            }
+        }
     }
 }
