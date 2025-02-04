@@ -62,7 +62,14 @@ stage('4733094m-opr-s3') {
             steps {
                 script {
                     echo "4733094m-opr-s4: Stress test result is good"
-                    // You can add logic here to simulate the stress test or analyze results if needed
+                }
+            }
+        }
+stage('4733094m-opr-s5') {
+            steps {
+                script {
+                    echo "4733094m-opr-s5: Deploy new update to prod web server?"
+                    input message: 'Proceed to update prod web server or Abort (for stress test fails)?', ok: 'Proceed', cancel: 'Abort'
                 }
             }
         }
