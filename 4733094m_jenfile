@@ -77,11 +77,10 @@ pipeline {
             steps {
                 script {
                     echo "4733094m-opr-s6: Creating backup and updating prod web server"
-                    # Remove old prodsvr_image if it exists
-                    docker rmi -f prodsvr_image || true
+                    sh 'docker rmi -f prodsvr_image || true'
                     
                     # Create a new backup image for prod web server
-                    docker commit prodsvr_container prodsvr_image
+                    sh 'docker commit prodsvr_container prodsvr_image'
                     sh '''#!/bin/bash                
 
                      # Ensure /tmp/4733094m/research is absent, then create as directory
