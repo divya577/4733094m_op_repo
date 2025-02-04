@@ -12,10 +12,11 @@ pipeline {
                     echo '4733094m-opr-s1: Updating UAT server'
                     sh '''#!/bin/bash
                     # Ensure /tmp/4733094m exists
-                     # puppet resource file /tmp/4733094m ensure=directory provider=posix
+                     # puppet resource file /tmp/4733094m ensure=directory 
                     
                     # Ensure /tmp/4733094m/research is absent, then create as directory
                     puppet resource file /tmp/4733094m/research ensure=absent force=true;
+                    puppet resource file /tmp/4733094m ensure=directory ;
                     puppet resource file /tmp/4733094m/research ensure=directory ;
                     
                     cd /tmp/4733094m/research;
