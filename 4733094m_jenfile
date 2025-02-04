@@ -13,8 +13,8 @@ pipeline {
                     sh '''#!/bin/bash
                     
                     # Ensure /tmp/4733094m/research is absent, then create as directory
-                    puppet resource file /tmp/4733094m/research ensure=absent force=true;
                     puppet resource file /tmp/4733094m ensure=directory ;
+                    puppet resource file /tmp/4733094m/research ensure=absent force=true;
                     puppet resource file /tmp/4733094m/research ensure=directory ;
                     
                     cd /tmp/4733094m/research;
