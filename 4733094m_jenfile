@@ -30,5 +30,24 @@ pipeline {
                 }
             }
         }
+ stage('4733094m-opr-s2') {
+            steps {
+                script {
+                    echo '4733094m-opr-s2: Executing web test for UAT server'
+                    sh '''#!/bin/bash
+                    
+                    # Perform web test for UAT server
+                    curl -Is http://4733094m_uatsvr.localdomain | head -n 1 > /tmp/uatsvr-result-file
+                    
+                    # Check the result of the web test
+                    if grep -q "HTTP/1.1 200 OK" /tmp/uatsvr-result-file; then
+                        echo '4733094m-opr-s2: uat svr is running'
+                    else
+                        echo '4733094m-opr-s2: uat svr fails'
+                    fi
+                    '''
+                }
+            }
+        }
     }
 }
