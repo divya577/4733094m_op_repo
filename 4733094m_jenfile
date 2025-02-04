@@ -101,5 +101,44 @@ pipeline {
                 }
             }
         }
+    stage('4733094m-opr-s7') {
+    steps {
+        script {
+            echo "4733094m-opr-s7: Checking production website status"
+            sh '''#!/bin/bash
+            
+            # Perform web test for production server
+            curl -Is http://4733094m_prodsvr.localdomain | head -n 1 > /tmp/prodsvr-result-file
+            
+            # Check the result of the web test
+            if grep -q "HTTP/1.1 200 OK" /tmp/prodsvr-result-file; then
+                echo "4733094m-opr-s7: Production website is operational"
+                exit 0
+            else
+                echo "4733094m-opr-s7: Production website check failed"
+                exit 1
+            fi
+            '''
+        }
+    }
+    post {
+        failure {
+            script {
+                def userChoice = input(
+                    message: 'Production website check failed. Choose an action:',
+                    parameters: [
+                        choice(name: 'Action', choices: ['Trigger roll back', 'Troubleshooting'], description: 'Select an option')
+                    ]
+                )
+
+                if (userChoice == 'Trigger roll back') {
+                    echo '4733094m-opr-s7: Production website is rolling back'
+                } else {
+                    echo '4733094m-opr-s7: Troubleshooting of Production website is in progress'
+                }
+            }
+        }
+    }
+}
     }
 }
