@@ -5,11 +5,9 @@ pipeline {
         stage('4733094m-opr-s1') {
             steps {
                 script {
-                    echo '4733094m-opr-s1: Creating backup for UAT server'
                     sh 'docker rmi -f uatsvr_image || true'
                     sh 'docker commit 4733094m_uatsvr uatsvr_image'
                     
-                    echo '4733094m-opr-s1: Updating UAT server'
                     sh '''#!/bin/bash
                     
                     # Ensure /tmp/4733094m/research is absent, then create as directory
@@ -26,14 +24,13 @@ pipeline {
 
                     bolt script run $locate_script -t $targets -u clientadm -p user123 --no-host-key-check --run-as root;
                     '''
-                    echo '4733094m-opr-s1: UAT web server is backup and updated'
+                    echo '4733094m_OP_S1: uat web server is backup and updated'
                 }
             }
         }
      stage('4733094m-opr-s2') {
             steps {
                 script {
-                    echo '4733094m-opr-s2: Executing web test for UAT server'
                     sh '''#!/bin/bash
                     
                     # Perform web test for UAT server
@@ -41,9 +38,9 @@ pipeline {
                     
                     # Check the result of the web test
                     if grep -q "HTTP/1.1 200 OK" /tmp/uatsvr-result-file; then
-                        echo '4733094m-opr-s2: uat svr is running'
+                        echo '4733094m_OP_S2: uat svr is running'
                     else
-                        echo '4733094m-opr-s2: uat svr fails'
+                        echo '4733094m_OP_S2: uat svr fails'
                     fi
                     '''
                 }
@@ -52,7 +49,7 @@ pipeline {
     stage('4733094m-opr-s3') {
             steps {
                 script {
-                    echo "4733094m-opr-s3: Proceed stress test uat web server?"
+                    echo "4733094m_OP_S3: Proceed stress test uat web server?"
                     input message: 'Proceed with stress test on uat web server or Abort (for uat svr fails)?', ok: 'Proceed', cancel: 'Abort'
                 }
             }
@@ -61,14 +58,14 @@ pipeline {
         stage('4733094m-opr-s4') {
             steps {
                 script {
-                    echo "4733094m-opr-s4: Stress test result is good"
+                    echo "4733094m_OP_S4: Stress test result is good"
                 }
             }
         }
     stage('4733094m-opr-s5') {
             steps {
                 script {
-                    echo "4733094m-opr-s5: Deploy new update to prod web server?"
+                    echo "4733094m_OP_S5: Deploy new update to prod web server?"
                     input message: 'Proceed to update prod web server or Abort (for stress test fails)?', ok: 'Proceed', cancel: 'Abort'
                 }
             }
@@ -76,7 +73,6 @@ pipeline {
      stage('4733094m-opr-s6') {
             steps {
                 script {
-                    echo "4733094m-opr-s6: Creating backup and updating prod web server"
                     sh 'docker rmi -f prodsvr_image || true'
                     sh 'docker commit 4733094m_prodsvr prodsvr_image'
 
@@ -96,7 +92,7 @@ pipeline {
                     
                     bolt script run $locate_script -t $targets -u clientadm -p user123 --no-host-key-check --run-as root;
                     '''
-                    echo '4733094m-opr-s6: prod web server is backup and updated'
+                    echo '4733094m_OP_S6: prod web server is backup and updated'
                     
                 }
             }
@@ -104,7 +100,6 @@ pipeline {
     stage('4733094m-opr-s7') {
     steps {
         script {
-            echo "4733094m-opr-s7: Checking production website status"
             sh '''#!/bin/bash
             
             # Perform web test for production server
@@ -112,10 +107,10 @@ pipeline {
             
             # Check the result of the web test
             if grep -q "HTTP/1.1 200 OK" /tmp/prodsvr-result-file; then
-                echo "4733094m-opr-s7: Production website is operational"
+                echo "4733094m_OP_S7: Production website is operational"
                 exit 0
             else
-                echo "4733094m-opr-s7: Production website check failed"
+                echo "4733094m_OP_S7: Production website check failed"
                 exit 1
             fi
             '''
@@ -132,9 +127,9 @@ pipeline {
                 )
 
                 if (userChoice == 'Trigger roll back') {
-                    echo '4733094m-opr-s7: Production website is rolling back'
+                    echo '4733094m_OP_S7: Production website is rolling back'
                 } else {
-                    echo '4733094m-opr-s7: Troubleshooting of Production website is in progress'
+                    echo '4733094m_OP_S7: Troubleshooting of Production website is in progress'
                 }
             }
         }
