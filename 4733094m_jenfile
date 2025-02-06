@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     stages {
-        stage('4733094m-opr-s1') {
+        stage('4733094m-OP-S1') {
             steps {
                 script {
                     sh 'docker rmi -f uatsvr_image || true'
@@ -28,7 +28,7 @@ pipeline {
                 }
             }
         }
-     stage('4733094m-opr-s2') {
+     stage('4733094m-OP-S2') {
             steps {
                 script {
                     sh '''#!/bin/bash
@@ -46,7 +46,7 @@ pipeline {
                 }
             }
         }
-    stage('4733094m-opr-s3') {
+    stage('4733094m-OP-S3') {
             steps {
                 script {
                     echo "4733094m_OP_S3: Proceed stress test uat web server?"
@@ -55,14 +55,14 @@ pipeline {
             }
         }
 
-        stage('4733094m-opr-s4') {
+        stage('4733094m-OP-S4') {
             steps {
                 script {
                     echo "4733094m_OP_S4: Stress test result is good"
                 }
             }
         }
-    stage('4733094m-opr-s5') {
+    stage('4733094m-OP-S5') {
             steps {
                 script {
                     echo "4733094m_OP_S5: Deploy new update to prod web server?"
@@ -70,7 +70,7 @@ pipeline {
                 }
             }
         }
-     stage('4733094m-opr-s6') {
+     stage('4733094m-OP-S6') {
             steps {
                 script {
                     sh 'docker rmi -f prodsvr_image || true'
@@ -97,7 +97,7 @@ pipeline {
                 }
             }
         }
-    stage('4733094m-opr-s7') {
+    stage('4733094m-OP-S7') {
     steps {
         script {
             sh '''#!/bin/bash
