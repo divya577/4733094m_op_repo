@@ -34,7 +34,7 @@ pipeline {
                     sh '''#!/bin/bash
                     
                     # Perform web test for UAT server
-                    curl -Is http://4733094m_uatsvr.localdomain | head -n 1 > /tmp/uatsvr-result-file
+                    curl -Is http://localhost:32500 | head -n 1 > /tmp/uatsvr-result-file
                     
                     # Check the result of the web test
                     if grep -q "HTTP/1.1 200 OK" /tmp/uatsvr-result-file; then
