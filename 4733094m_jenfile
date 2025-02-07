@@ -103,7 +103,7 @@ pipeline {
             sh '''#!/bin/bash
             
             # Perform web test for production server
-            curl -Is http://4733094m_prodsvr.localdomain | head -n 1 > /tmp/prodsvr-result-file
+             curl -Is http://localhost:32600 | head -n 1 > /tmp/prodsvr-result-file
             
             # Check the result of the web test
             if grep -q "HTTP/1.1 200 OK" /tmp/prodsvr-result-file; then
